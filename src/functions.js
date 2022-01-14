@@ -142,8 +142,6 @@ export function gameLoop(act){
                 mid_timer*=0.01;
                 long_timer*=0.01;
 
-                window.cheat=global
-
                 webWorker.mt = main_timer;
 
                 let dt = Date.now();
@@ -184,7 +182,7 @@ export function gameLoop(act){
             }
     }
 }
-
+window.cheat=global;
 window.exportGame = function exportGame(){
     if (global.race['noexport']){
         return 'Export is not available during Race Creation';
