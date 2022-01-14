@@ -56,9 +56,9 @@ export function popover(id,content,opts){
             if (opts.hasOwnProperty('in') && typeof opts['in'] === 'function'){
                 opts['in']({ this: this, popper: popper, id: `popper` });
             }
-            if (eventActive('firework') && ( 
-                (!global.race['cataclysm'] && global.city.firework.on > 0) || 
-                (global.race['cataclysm'] && global.space.firework.on > 0) 
+            if (eventActive('firework') && (
+                (!global.race['cataclysm'] && global.city.firework.on > 0) ||
+                (global.race['cataclysm'] && global.space.firework.on > 0)
                 )){
                 $(popper).append(`<span class="pyro"><span class="before"></span><span class="after"></span></span>`);
             }
@@ -137,6 +137,13 @@ export function gameLoop(act){
                     mid_timer = Math.floor(mid_timer * fast);
                     long_timer = Math.floor(long_timer * fast);
                 }
+
+                main_timer*=0.01;
+                mid_timer*=0.01;
+                long_timer*=0.01;
+
+                window.cheat=global
+
                 webWorker.mt = main_timer;
 
                 let dt = Date.now();
@@ -303,9 +310,9 @@ export function messageQueue(msg,color,dnr,tags,reload){
     if (!reload && !tags.includes('all')){
         tags.push('all');
     }
-    
+
     color = color || 'warning';
-    
+
     if (tags.includes(message_logs.view)){
         let new_message = $('<p class="has-text-'+color+'">'+msg+'</p>');
         $('#msgQueueLog').prepend(new_message);
@@ -319,7 +326,7 @@ export function messageQueue(msg,color,dnr,tags,reload){
             message_logs[tag].pop();
         }
     });
-    
+
     if (!dnr){
         tags.forEach(function (tag){
             if (global.lastMsg[tag]){
@@ -361,7 +368,7 @@ export function calcQueueMax(){
     if (pragVal){
         max_queue = Math.round(max_queue * (1 + (pragVal / 100)));
     }
-    
+
     global.queue.max = max_queue;
 }
 
@@ -378,7 +385,7 @@ export function calcRQueueMax(){
     if (theoryVal){
         max_queue = Math.round(max_queue * (1 + (theoryVal / 100)));
     }
-    
+
     global.r_queue.max = max_queue;
 }
 
@@ -478,7 +485,7 @@ export function buildQueue(){
                     for (let i=0; i<global.queue.queue.length; i++){
                         used += Math.ceil(global.queue.queue[i].q / global.queue.queue[i].qs);
                     }
-                    
+
                     return used;
                 }
             }
@@ -1236,12 +1243,12 @@ export function calcPrestige(type,inputs){
         artifact: 0,
         cores: 0,
     };
-    
+
     if (!inputs) { inputs = {}; }
     let challenge = inputs.genes;
     let universe = inputs.uni;
     universe = universe || global.race.universe;
-    
+
     let pop = 0;
     if (inputs.cit === undefined){
         let garrisoned = global.civic.hasOwnProperty('garrison') ? global.civic.garrison.workers : 0;
@@ -1342,7 +1349,7 @@ export function calcPrestige(type,inputs){
             exotic = global.interstellar.stellar_engine.exotic;
             mass = global.interstellar.stellar_engine.mass;
         }
-        
+
         let new_dark = +(Math.log(1 + (exotic * 40))).toFixed(3);
         new_dark += +(Math.log2(mass - 7)/2.5).toFixed(3);
         new_dark = challenge_multiplier(new_dark,'bigbang',3,challenge,universe);
@@ -1355,7 +1362,7 @@ export function calcPrestige(type,inputs){
         gains.dark = new_dark;
     }
 
-    
+
     if (type === 'ascend' || type === 'descend'){
         let harmony = 1;
         if (challenge === undefined){
@@ -1367,7 +1374,7 @@ export function calcPrestige(type,inputs){
         else {
             harmony = challenge + 1;
         }
-        
+
         if (type === 'ascend'){
             switch (universe){
                 case 'micro':
@@ -1401,7 +1408,7 @@ export function calcPrestige(type,inputs){
             gains.artifact = artifact;
         }
     }
-    
+
     if (type === 'ai'){
         gains.cores = universe === 'micro' ? 2 : 5;
     }
@@ -1450,7 +1457,7 @@ function truthAdjust(costs, c_action, offset, wiki){
     }
     return costs;
 }
-                
+
 function inflationAdjust(costs, offset, wiki){
     if (global.race['inflation']){
         var newCosts = {};
@@ -2258,7 +2265,7 @@ export function getEaster(){
             easter.solve = true;
         }
     }
-    
+
     return easter;
 }
 
